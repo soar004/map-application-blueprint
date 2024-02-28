@@ -4,7 +4,7 @@ This is a blueprint/guide to setup a map application, both for myself and for my
 
 ***As of right now on 28/2/24, this does not work and is a work in progress. So be aware that this needs some love to be optimised still.***
 
-Feel free to send me a message or leave a comment for feedback/improvements or just questions if something is unclear or not working properly :) 
+Feel free to send me a message or leave a comment for feedback/improvements or just questions if something is unclear or not working properly 🥰
 
 Take note that I am mainly an OSX user and that I use the terminal for most things. Here are some useful commands if you need them:
 
