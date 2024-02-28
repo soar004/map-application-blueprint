@@ -241,11 +241,6 @@ _Note that Johannes does this differently in the course documentation but I have
 
     1.  `npm i -D husky`
     2.  `npx husky init`
-    3.  Add to `.husky/pre-commit`:
-
-            #!/usr/bin/env sh
-            . "$(dirname -- "$0")/_/husky.sh"
-            npm run test
 
 ## Map Application Setup
 
