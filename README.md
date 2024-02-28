@@ -172,7 +172,9 @@ Inside your directory/repo open up the bash terminal and run these commands:
 
     The purpose of using Prettier is to format the code consistetly and making it easier to read.
 
-8.  Set up GitHub Actions to deploy:
+   - *NB!* Have you remembered to create a .gitignore file? ***Don't forget to do that!***
+
+9.  Set up GitHub Actions to deploy:
 
     `.github/workflows/publish.yaml`
 
