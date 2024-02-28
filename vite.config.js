@@ -1,3 +1,3 @@
-// export default {
-//     base: "/<your repo name>"
-// }
+export default {
+  base: "/<map-application-blueprint>",
+};
