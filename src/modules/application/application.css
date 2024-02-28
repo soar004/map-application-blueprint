@@ -8,7 +8,8 @@
   height: 100dvh;
 }
 
-nav {
+nav,
+header {
   display: flex;
   gap: 1rem;
 }
