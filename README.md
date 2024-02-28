@@ -1,8 +1,8 @@
 # Blueprint to manually setup a map application for deployment
 
-This is a blueprint/guide to setup a map application, both for myself and for my fellow classmates. Feel free to clone this repo if you want. I reccomend going through the steps in a new repo and then saving that for later, to be cloned. This way you actually learn how to set up your map application which is very important for this course. 
+This is a blueprint/guide to setup a map application, both for myself and for my fellow classmates. Feel free to clone this repo if you want. I reccomend going through the steps in a new repo and then saving that for later, to be cloned. This way you actually learn how to set up your map application which is very important for this course.
 
-***As of right now on 28/2/24, this does not work and is a work in progress. So be aware that this needs some love to be optimised still.***
+**_As of right now on 28/2/24, this does not work and is a work in progress. So be aware that this needs some love to be optimised still._**
 
 Feel free to send me a message or leave a comment for feedback/improvements or just questions if something is unclear or not working properly 🥰
 
@@ -94,20 +94,19 @@ Inside your directory/repo open up the bash terminal and run these commands:
 4.  `npm pkg set scripts.dev=vite`
 5.  Create `index.html` :
 
-   ```<!doctype html>
-    <!DOCTYPE html>
+```<!doctype html>
+ <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script type="module" src="./src/main.tsx"></script>
-  </head>
-  <body></body>
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Document</title>
+ <script type="module" src="./src/main.tsx"></script>
+</head>
+<body></body>
 </html>
 
 ```
-
 
 6.  Create `src/main.tsx`:
 
@@ -130,6 +129,7 @@ Inside your directory/repo open up the bash terminal and run these commands:
     npx tsc --init --jsx react
     npx prettier --write .
     ```
+
     This also generates a `tsconfig.json` file.
 
     Consider adding this to your `package.json` file to enable TS' compiler watch mode:
@@ -172,46 +172,47 @@ Inside your directory/repo open up the bash terminal and run these commands:
 
     The purpose of using Prettier is to format the code consistetly and making it easier to read.
 
-   - *NB!* Have you remembered to create a .gitignore file? ***Don't forget to do that!***
+- _NB!_ Have you remembered to create a .gitignore file? **_Don't forget to do that!_**
 
 9.  Set up GitHub Actions to deploy:
 
     `.github/workflows/publish.yaml`
 
-       ```
-        on:
-      push:
-        branches:
-          - main
-          # Include more branches if relevant
-    
+    ````
+     on:
+    push:
+     branches:
+       - main
+       # Include more branches if relevant
+
     jobs:
-      publish:
-        runs-on: ubuntu-latest
-    
-        permissions:
-          id-token: write
-          pages: write
-          contents: read
-        environment:
-          name: github-pages
-          url: ${{ steps.deployment.outputs.page_url }}
-        steps:
-          - uses: actions/checkout@v4
-          - uses: actions/setup-node@v4
-            with:
-              node-version: 20.x
-              cache: "npm"
-          - run: npm ci
-          - run: npm run build
-          - uses: actions/upload-pages-artifact@v3
-            with:
-              path: ./dist
-          - uses: actions/deploy-pages@v4
-            id: deployment
-    
-    
-        ```
+    publish:
+     runs-on: ubuntu-latest
+
+     permissions:
+       id-token: write
+       pages: write
+       contents: read
+     environment:
+       name: github-pages
+       url: ${{ steps.deployment.outputs.page_url }}
+     steps:
+       - uses: actions/checkout@v4
+       - uses: actions/setup-node@v4
+         with:
+           node-version: 20.x
+           cache: "npm"
+       - run: npm ci
+       - run: npm run build
+       - uses: actions/upload-pages-artifact@v3
+         with:
+           path: ./dist
+       - uses: actions/deploy-pages@v4
+         id: deployment
+
+
+     ```
+    ````
 
 This publishes your project as `https://<your username>.github.io/<repository name>`.
 
