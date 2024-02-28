@@ -174,40 +174,40 @@ Inside your directory/repo open up the bash terminal and run these commands:
 
     `.github/workflows/publish.yaml`
 
-   ```
-    on:
-  push:
-    branches:
-      - main
-      # Include more branches if relevant
-
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-      pages: write
-      contents: read
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-          cache: "npm"
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-      - uses: actions/deploy-pages@v4
-        id: deployment
-
-
-    ```
+       ```
+        on:
+      push:
+        branches:
+          - main
+          # Include more branches if relevant
+    
+    jobs:
+      publish:
+        runs-on: ubuntu-latest
+    
+        permissions:
+          id-token: write
+          pages: write
+          contents: read
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+          - uses: actions/checkout@v4
+          - uses: actions/setup-node@v4
+            with:
+              node-version: 20.x
+              cache: "npm"
+          - run: npm ci
+          - run: npm run build
+          - uses: actions/upload-pages-artifact@v3
+            with:
+              path: ./dist
+          - uses: actions/deploy-pages@v4
+            id: deployment
+    
+    
+        ```
 
 This publishes your project as `https://<your username>.github.io/<repository name>`.
 
