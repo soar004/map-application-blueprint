@@ -95,18 +95,19 @@ Inside your directory/repo open up the bash terminal and run these commands:
 4.  `npm pkg set scripts.dev=vite`
 5.  Create `index.html` :
 
-```<!doctype html>
- <!DOCTYPE html>
+```
+<!doctype html>
 <html lang="en">
-<head>
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>Document</title>
- <script type="module" src="./src/main.tsx"></script>
-</head>
-<body></body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="src/main.tsx" type="module"></script>
 </html>
-
 ```
 
 6.  Create `src/main.tsx`:
@@ -116,7 +117,8 @@ Inside your directory/repo open up the bash terminal and run these commands:
         const root = ReactDOM.createRoot(document.getElementById("root")!);
         root.render(<h1>Hello React</h1>);
 
-7.  Set up TypeScript and formatting with Prettier:
+
+8.  Set up TypeScript and formatting with Prettier:
 
     Run these commands:
 
@@ -175,6 +177,8 @@ Inside your directory/repo open up the bash terminal and run these commands:
 
 - _NB!_ Have you remembered to create a .gitignore file? **_Don't forget to do that!_**
 
+- You might want to run `npm run dev` whilst you are setting up your project. Then you can see if your application responds to React along the way.
+
 9.  Set up GitHub Actions to deploy:
 
     `.github/workflows/publish.yaml`
@@ -213,9 +217,9 @@ Inside your directory/repo open up the bash terminal and run these commands:
 
 
      ```
-    ````
+    
 
-This publishes your project as `https://<your username>.github.io/<repository name>`.
+This script publishes your project as `https://<your username>.github.io/<repository name>`.
 
 9.  Create a file named `vite.config.js` in your root folder:
 
@@ -265,68 +269,94 @@ _Note that Johannes does this differently in the course documentation but I have
 
 Create `src/modules/application/application.tsx` :
 
-        import { Map, View } from "ol";
-        import TileLayer from "ol/layer/Tile";
-        import { OSM } from "ol/source";
-        import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-        import { useGeographic } from "ol/proj";
-
-
-        import "ol/ol.css";
-        import "./application.css";
-        import { Layer } from "ol/layer";
-        import { MapContext } from "../map/mapContext";
-
-
-        useGeographic();
-
-        const map = new Map({
+    import { Map, View } from "ol";
+    import { MutableRefObject, useEffect, useRef, useState } from "react";
+    import TileLayer from "ol/layer/Tile";
+    import { OSM } from "ol/source";
+    import { useGeographic } from "ol/proj";
+    import React from "react";
+    import "ol/ol.css";
+    import "./application.css";
+    import { Layer } from "ol/layer";
+    import { MapContext } from "../map/mapContext";
+            
+    useGeographic();
+            
+    const map = new Map({
         layers: [new TileLayer({ source: new OSM() })],
         view: new View({
             center: [11, 59],
             zoom: 10,
         }),
-        });
-
-        export function MapApplication() {
+    });
+            
+    export function MapApplication() {
         function handleFocusUser(e: React.MouseEvent) {
             e.preventDefault();
             navigator.geolocation.getCurrentPosition((position) => {
-            const { latitude, longitude } = position.coords;
-            map.getView().animate({
-                center: [longitude, latitude],
-                zoom: 10,
-            });
+                const { latitude, longitude } = position.coords;
+                map.getView().animate({
+                    center: [longitude, latitude],
+                    zoom: 10,
+                });
             });
         }
         const [layers, setLayers] = useState<Layer[]>([
             new TileLayer({ source: new OSM() }),
-        ]);
+              ]);
         useEffect(() => map.setLayers(layers), [layers]);
-
+            
         const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
         useEffect(() => {
             map.setTarget(mapRef.current);
         }, []);
+            
         useEffect(() => {
             map.setLayers(layers);
         }, [layers]);
+            
         return (
             <MapContext.Provider value={{ map, layers, setLayers }}>
-            <header>
-                <h1>Name of your application</h1>
-            </header>
-            <nav>
-                <a href="#" onClick={handleFocusUser}>
-                Focus on me
-                </a>
-            </nav>
-            <main>
-               // If you want to have an aside, place it here
-            </main>
+                <header>
+                    <h1>Project Name</h1>
+                </header>
+            
+                <nav>
+                    <a href={"#"} onClick={handleFocusUser}>
+                    Focus on me
+                    </a>
+                    
+                    {/*Place checkboxes here if you want them*/}
+                    
+                </nav>
+                <main>
+                    <div ref={mapRef} className={"map"}></div>
+                    
+                    {/* Place the aside/sidebar if you want that.*/}
+                    
+                </main>
             </MapContext.Provider>
-        );
+            );
         }
+
+    export default MapApplication;
+
+This should be enough to set up your map application but if you want to add a function that shows the user's location you can add this code inside your mapApplication function:
+
+    function handleFocusUser(e: React.MouseEvent) {
+        e.preventDefault();
+        navigator.geolocation.getCurrentPosition((position) => {
+          const { latitude, longitude } = position.coords;
+          map.getView().animate({
+            center: [longitude, latitude],
+            zoom: 10,
+          });
+        });
+      }
+
+And then inside the nav bar you need to add this link: 
+
+    <a href={"#"} onClick={handleFocusUser}>Focus on me/a>
 
 To be able to display the map you need to have these two files in `src/modules/map`:
 
