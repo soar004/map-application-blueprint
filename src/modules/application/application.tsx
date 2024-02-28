@@ -20,22 +20,14 @@ const map = new Map({
 });
 
 export function MapApplication() {
-  function handleFocusUser(e: React.MouseEvent) {
-    e.preventDefault();
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      map.getView().animate({
-        center: [longitude, latitude],
-        zoom: 10,
-      });
-    });
-  }
   const [layers, setLayers] = useState<Layer[]>([
     new TileLayer({ source: new OSM() }),
   ]);
+
   useEffect(() => map.setLayers(layers), [layers]);
 
   const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
+
   useEffect(() => {
     map.setTarget(mapRef.current);
   }, []);
@@ -51,14 +43,13 @@ export function MapApplication() {
       </header>
 
       <nav>
-        <a href={"#"} onClick={handleFocusUser}>
-          Focus on me
-        </a>
-        {/*Place checkboxes here if you want them*/}
+        {/* Add link for focusing on the user here */}
+
+        {/* Place checkboxes here if you want them */}
       </nav>
       <main>
         <div ref={mapRef} className={"map"}></div>
-        {/* Place the aside/sidebar if you want that.*/}
+        {/* Place the aside/sidebar if you want that. */}
       </main>
     </MapContext.Provider>
   );
