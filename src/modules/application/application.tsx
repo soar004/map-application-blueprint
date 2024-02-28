@@ -14,28 +14,21 @@ useGeographic();
 const map = new Map({
   layers: [new TileLayer({ source: new OSM() })],
   view: new View({
-    center: [11, 59],
-    zoom: 10,
+    // Note that the center and zoom level are not the same as Johannes' example. Adjust as needed.
+    center: [11, 62],
+    zoom: 5,
   }),
 });
 
 export function MapApplication() {
-  function handleFocusUser(e: React.MouseEvent) {
-    e.preventDefault();
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      map.getView().animate({
-        center: [longitude, latitude],
-        zoom: 10,
-      });
-    });
-  }
   const [layers, setLayers] = useState<Layer[]>([
     new TileLayer({ source: new OSM() }),
   ]);
+
   useEffect(() => map.setLayers(layers), [layers]);
 
   const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
+
   useEffect(() => {
     map.setTarget(mapRef.current);
   }, []);
@@ -47,18 +40,17 @@ export function MapApplication() {
   return (
     <MapContext.Provider value={{ map, layers, setLayers }}>
       <header>
-        <h1>Project Name</h1>
+        <h1>A very basic map application</h1>
       </header>
 
       <nav>
-        <a href={"#"} onClick={handleFocusUser}>
-          Focus on me
-        </a>
-        {/*Place checkboxes here if you want them*/}
+        {/* Add link for focusing on the user here */}
+
+        {/* Place checkboxes here if you want them */}
       </nav>
       <main>
         <div ref={mapRef} className={"map"}></div>
-        {/* Place the aside/sidebar if you want that.*/}
+        {/* Place the aside/sidebar if you want that. */}
       </main>
     </MapContext.Provider>
   );
