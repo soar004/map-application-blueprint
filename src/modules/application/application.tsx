@@ -14,8 +14,9 @@ useGeographic();
 const map = new Map({
   layers: [new TileLayer({ source: new OSM() })],
   view: new View({
-    center: [11, 59],
-    zoom: 10,
+    // Note that the center and zoom level are not the same as Johannes' example. Adjust as needed.
+    center: [11, 62],
+    zoom: 5,
   }),
 });
 
@@ -39,7 +40,7 @@ export function MapApplication() {
   return (
     <MapContext.Provider value={{ map, layers, setLayers }}>
       <header>
-        <h1>Project Name</h1>
+        <h1>A very basic map application</h1>
       </header>
 
       <nav>
