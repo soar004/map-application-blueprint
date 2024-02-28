@@ -92,17 +92,20 @@ Inside your directory/repo open up the bash terminal and run these commands:
 4.  `npm pkg set scripts.dev=vite`
 5.  Create `index.html` :
 
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
-        </head>
-        <body>
+   ```<!doctype html>
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="module" src="./src/main.tsx"></script>
+  </head>
+  <body></body>
+</html>
 
-        </body>
-        </html>
+```
+
 
 6.  Create `src/main.tsx`:
 
