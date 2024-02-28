@@ -117,8 +117,7 @@ Inside your directory/repo open up the bash terminal and run these commands:
         const root = ReactDOM.createRoot(document.getElementById("root")!);
         root.render(<h1>Hello React</h1>);
 
-
-8.  Set up TypeScript and formatting with Prettier:
+7.  Set up TypeScript and formatting with Prettier:
 
     Run these commands:
 
@@ -217,7 +216,8 @@ Inside your directory/repo open up the bash terminal and run these commands:
 
 
      ```
-    
+
+    ````
 
 This script publishes your project as `https://<your username>.github.io/<repository name>`.
 
@@ -279,9 +279,9 @@ Create `src/modules/application/application.tsx` :
     import "./application.css";
     import { Layer } from "ol/layer";
     import { MapContext } from "../map/mapContext";
-            
+
     useGeographic();
-            
+
     const map = new Map({
         layers: [new TileLayer({ source: new OSM() })],
         view: new View({
@@ -289,7 +289,7 @@ Create `src/modules/application/application.tsx` :
             zoom: 10,
         }),
     });
-            
+
     export function MapApplication() {
         function handleFocusUser(e: React.MouseEvent) {
             e.preventDefault();
@@ -305,35 +305,35 @@ Create `src/modules/application/application.tsx` :
             new TileLayer({ source: new OSM() }),
               ]);
         useEffect(() => map.setLayers(layers), [layers]);
-            
+
         const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
         useEffect(() => {
             map.setTarget(mapRef.current);
         }, []);
-            
+
         useEffect(() => {
             map.setLayers(layers);
         }, [layers]);
-            
+
         return (
             <MapContext.Provider value={{ map, layers, setLayers }}>
                 <header>
                     <h1>Project Name</h1>
                 </header>
-            
+
                 <nav>
                     <a href={"#"} onClick={handleFocusUser}>
                     Focus on me
                     </a>
-                    
+
                     {/*Place checkboxes here if you want them*/}
-                    
+
                 </nav>
                 <main>
                     <div ref={mapRef} className={"map"}></div>
-                    
+
                     {/* Place the aside/sidebar if you want that.*/}
-                    
+
                 </main>
             </MapContext.Provider>
             );
@@ -354,7 +354,7 @@ This should be enough to set up your map application but if you want to add a fu
         });
       }
 
-And then inside the nav bar you need to add this link: 
+And then inside the nav bar you need to add this link:
 
     <a href={"#"} onClick={handleFocusUser}>Focus on me/a>
 
