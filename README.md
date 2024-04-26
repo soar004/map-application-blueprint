@@ -38,11 +38,10 @@ And create a index.html file:
     <title>Map Application Blueprint</title>
   </head>
   <body>
-  <div id="root"></div>
+    <div id="root"></div>
   </body>
   <script src="./src/main.tsx" type="module"></script>
 </html>
-
 ```
 
 Install React and React-DOM types for TypeScript:
