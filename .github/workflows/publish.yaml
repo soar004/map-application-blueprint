@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - main
-      - revamp
       # - Add more branches if relevant
 jobs:
   publish:
