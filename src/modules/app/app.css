@@ -1,0 +1,40 @@
+:root {
+  --main-color: #333;
+  --secondary-color: #f3f3f3;
+  --gap: 1em;
+}
+
+* {
+  margin: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+#root {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 100vh;
+  background-color: var(--main-color);
+}
+
+.nav {
+  display: flex;
+  gap: var(--gap);
+  background-color: var(--secondary-color);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  background-color: var(--secondary-color);
+}
+
+.main aside {
+  display: grid;
+  grid-template-columns: 0;
+  transition: grid-template-columns 0.5s ease-in-out;
+  overflow-x: clip;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  background-color: var(--secondary-color);
+}
