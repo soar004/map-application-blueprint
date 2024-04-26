@@ -185,6 +185,129 @@ app.css
 In the `app.tsx` file you want to add:
 
 ```tsx
-import React from "react";
+import * as React from "react";
+import { Map, View } from "ol";
+import { useGeographic } from "ol/proj";
+import TileLayer from "ol/layer/Tile";
+import { OSM } from "ol/source";
+import { MutableRefObject, useEffect, useRef } from "react";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import { GeoJSON } from "ol/format";
+import "ol/ol.css";
 import "./app.css";
+
+// Enable geographic coordinates for OpenLayers
+useGeographic();
+
+export function Application() {
+  // Create a ref for the map container div
+  const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
+
+  useEffect(() => {
+    // Create a new map
+    const map = new Map({
+      // Set the view with center coordinates and zoom level
+      view: new View({ center: [10, 60], zoom: 8 }),
+      layers: [
+        // Add a tile layer with OpenStreetMap as the source
+        new TileLayer({ source: new OSM() }),
+        // Add a vector layer with a point feature
+        new VectorLayer({
+          source: new VectorSource({
+            features: new GeoJSON().readFeatures({
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  geometry: { type: "Point", coordinates: [10, 60] },
+                },
+              ],
+            }),
+          }),
+        }),
+      ],
+    });
+
+    // Set the target of the map to the map container div
+    map.setTarget(mapRef.current);
+
+    // Clean up on unmount
+    return () => {
+      map.setTarget(undefined);
+    };
+  }, []);
+
+  // Render the map container div
+  return <div ref={mapRef}></div>;
+}
 ```
+
+And in the `app.css` file you want to add:
+
+```css
+:root {
+  --main-color: #333; /* Define a main color for the application */
+  --secondary-color: #f3f3f3; /* Define a secondary color for the application */
+  --gap: 1em; /* Define a standard gap size for the application */
+}
+
+* {
+  margin: 0;
+  height: 100vh; /* Set the height of all elements to the full viewport height */
+  box-sizing: border-box; /* Include padding and border in an element's total width and height */
+}
+
+#root {
+  display: grid; /* Use CSS grid layout for the root element */
+  grid-template-rows: auto auto 1fr; /* Define the size of the rows in the grid */
+  height: 100vh; /* Set the height of the root element to the full viewport height */
+  background-color: var(
+    --main-color
+  ); /* Set the background color of the root element to the main color */
+}
+
+.nav {
+  display: flex; /* Use CSS flexbox layout for the navigation */
+  gap: var(
+    --gap
+  ); /* Set the gap between navigation items to the standard gap size */
+  background-color: var(
+    --secondary-color
+  ); /* Set the background color of the navigation to the secondary color */
+}
+
+.main {
+  display: grid; /* Use CSS grid layout for the main content */
+  grid-template-columns: 1fr auto auto; /* Define the size of the columns in the grid */
+  background-color: var(
+    --secondary-color
+  ); /* Set the background color of the main content to the secondary color */
+}
+
+.main aside {
+  display: grid; /* Use CSS grid layout for the aside element */
+  grid-template-columns: 0; /* Define the size of the columns in the grid */
+  transition: grid-template-columns 0.5s ease-in-out; /* Add a transition effect when changing the size of the columns */
+  overflow-x: clip; /* Clip any content that overflows the x-axis */
+  max-height: calc(
+    100vh - 100px
+  ); /* Set the maximum height of the aside element */
+  overflow-y: auto; /* Add a scrollbar if the content overflows the y-axis */
+  background-color: var(
+    --secondary-color
+  ); /* Set the background color of the aside element to the secondary color */
+}
+```
+
+In the `main.tsx` file you want to change it to this:
+
+```tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Application } from "./modules/app/app";
+const root = ReactDOM.createRoot(document.getElementById("root")!);
+root.render(<Application />);
+```
+
+Now the map should display and the application should be deployed to Github Pages.
