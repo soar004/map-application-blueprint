@@ -1,8 +1,1 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-if git diff --cached --name-only | grep -E 'README.md' ; then
-  echo "Skipping formatting checks for README.md"
-  else
-npm run test
-fi
+npm test
